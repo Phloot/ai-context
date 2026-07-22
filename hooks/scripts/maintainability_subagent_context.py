@@ -7,11 +7,13 @@ import json
 
 
 CONTEXT = (
-    "If this delegated task plans, writes, modifies, refactors, or reviews "
-    "production code, invoke the /maintainable-code skill before implementation. "
-    "Apply its feedback checkpoints after each coherent implementation slice and "
-    "its final checkpoint before completion. If this task only explores or "
-    "researches the repository, continue without invoking the skill."
+    "If this delegated task changes code or executable configuration, invoke "
+    "the /maintainable-code skill before implementation. Apply the skill to "
+    "application code, libraries, scripts, build logic, deployment logic, "
+    "infrastructure code, migrations, and tests. Apply its feedback checkpoint "
+    "after each coherent implementation slice and its final checkpoint before "
+    "completion. Skip the skill only for documentation-only work, exploration "
+    "without edits, or generated and vendored code outside the task scope."
 )
 
 
