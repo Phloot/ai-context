@@ -12,7 +12,18 @@ Implement the specifications in this order:
 
 1. `01-ai-context-catalog-spec.md`
 2. `02-flightplan-marketplace-backend-spec.md`
-3. `03-flightplan-marketplace-ui-spec.md`
+3. `02a-flightplan-marketplace-foundation-spec.md`
+4. `02b-flightplan-marketplace-projection-spec.md`
+5. `02c-flightplan-marketplace-lifecycle-spec.md`
+6. `02d-flightplan-marketplace-api-spec.md`
+7. `03-flightplan-marketplace-ui-spec.md`
+8. `03a-flightplan-marketplace-browser-spec.md`
+9. `03b-flightplan-marketplace-actions-spec.md`
+10. `03c-flightplan-marketplace-resilience-spec.md`
+11. `03d-flightplan-marketplace-ui-quality-spec.md`
+
+The unlettered 02 and 03 documents are orchestration plans. Implement the
+lettered specifications as separate, sequentially reviewed slices.
 
 ## 3. Ownership
 
@@ -50,6 +61,8 @@ The stage output must include:
 
 Implement the Flightplan marketplace services and API.
 
+Execute backend slices 02a through 02d in order.
+
 The backend must:
 
 - Read the validated catalog.
@@ -66,6 +79,8 @@ The backend API is the input contract for the user interface.
 ### Stage 3: Marketplace user interface
 
 Implement the Flightplan marketplace page after the backend contract is stable.
+
+Execute user-interface slices 03a through 03d in order.
 
 The user interface must:
 
@@ -125,7 +140,7 @@ Do not start marketplace synchronization work until:
 
 - All existing selectable components have manifests.
 - Catalog validation passes.
-- Target collisions are resolved.
+- Destination collisions are resolved.
 - Component IDs are stable.
 
 ### Backend gate

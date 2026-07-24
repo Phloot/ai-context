@@ -525,7 +525,7 @@ The work is complete when:
 - Target paths are safe.
 - Dependencies are valid.
 - Dependency cycles do not exist.
-- Target collisions do not exist.
+- Destination collisions do not exist.
 - Payload ownership collisions do not exist.
 - The validation command returns a nonzero exit code for invalid catalogs.
 - Continuous integration runs catalog validation.
