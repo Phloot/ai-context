@@ -11,8 +11,8 @@ Each stage has one primary repository and one stable output contract.
 Implement the specifications in this order:
 
 1. `01-ai-context-catalog-spec.md`
-2. `02-flightlog-marketplace-backend-spec.md`
-3. `03-flightlog-marketplace-ui-spec.md`
+2. `02-flightplan-marketplace-backend-spec.md`
+3. `03-flightplan-marketplace-ui-spec.md`
 
 ## 3. Ownership
 

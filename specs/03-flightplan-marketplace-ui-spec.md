@@ -1,12 +1,12 @@
-# Flightlog Context Marketplace User Interface Specification
+﻿# Flightplan Context Marketplace User Interface Specification
 
 ## 1. Purpose
 
-Implement the Context Marketplace user interface in Flightlog.
+Implement the Context Marketplace user interface in Flightplan.
 
 The page must let a developer inspect and manage all supported catalog component types.
 
-This specification consumes the API from `02-flightlog-marketplace-backend-spec.md`.
+This specification consumes the API from `02-flightplan-marketplace-backend-spec.md`.
 
 This specification does not define catalog storage or filesystem projection.
 
@@ -16,7 +16,7 @@ Complete the marketplace backend API before connecting mutation controls.
 
 Use the supplied graphical mockup as a visual reference.
 
-Follow Flightlog's existing frontend framework, routing, styling, state, and test conventions.
+Follow Flightplan's existing frontend framework, routing, styling, state, and test conventions.
 
 Do not add a new frontend framework only for this feature.
 
@@ -32,7 +32,7 @@ Provide these views:
 
 The implementation can use routes, tabs, or filtered states.
 
-Keep the selected view in the URL when the current Flightlog router supports that behavior.
+Keep the selected view in the URL when the current Flightplan router supports that behavior.
 
 ## 4. Marketplace page structure
 
@@ -193,7 +193,7 @@ If the backend reports a local modification conflict:
 
 - Keep the applied version unchanged.
 - Show the affected relative paths.
-- Explain that Flightlog preserved the local files.
+- Explain that Flightplan preserved the local files.
 
 Do not provide force overwrite in the first release.
 
@@ -230,7 +230,7 @@ Before application, show:
 
 - Components that will become enabled.
 - Components that will become disabled.
-- Dependencies that Flightlog will enable.
+- Dependencies that Flightplan will enable.
 
 Explain that the profile does not lock later changes.
 
@@ -252,7 +252,7 @@ Show:
 
 Do not show file contents.
 
-Use pagination or incremental loading when the existing Flightlog pattern requires it.
+Use pagination or incremental loading when the existing Flightplan pattern requires it.
 
 ## 14. Conflict presentation
 
@@ -297,18 +297,18 @@ Do not display a partial invalid catalog as valid.
 
 ## 16. Initial migration state
 
-When Flightlog requires migration:
+When Flightplan requires migration:
 
-- Explain that Flightlog will identify existing matching context files.
-- Explain that Flightlog will preserve unmatched files.
+- Explain that Flightplan will identify existing matching context files.
+- Explain that Flightplan will preserve unmatched files.
 - Provide one migration action.
 - Show matching, conflicting, and unmanaged counts after migration.
 
-Do not imply that Flightlog owns all existing `~/.copilot` files.
+Do not imply that Flightplan owns all existing `~/.copilot` files.
 
 ## 17. Responsive behavior
 
-Support Flightlog's current desktop target.
+Support Flightplan's current desktop target.
 
 At narrower widths:
 
@@ -321,7 +321,7 @@ Do not require a separate mobile application layout.
 
 ## 18. Accessibility
 
-Meet the accessibility level that Flightlog currently requires.
+Meet the accessibility level that Flightplan currently requires.
 
 At minimum:
 
@@ -341,7 +341,7 @@ Use disabled state only when the action cannot run.
 
 ## 19. State management
 
-Use the existing Flightlog frontend data layer.
+Use the existing Flightplan frontend data layer.
 
 Keep server state authoritative.
 
@@ -360,7 +360,7 @@ Map stable backend error codes to concise user messages.
 
 Provide a general fallback for an unknown error code.
 
-Keep developer diagnostics in existing Flightlog logs.
+Keep developer diagnostics in existing Flightplan logs.
 
 Do not expose raw response bodies to the user.
 
@@ -381,7 +381,7 @@ Do not replace the complete page with a spinner for a single component mutation.
 
 ## 22. Tests
 
-Use the existing Flightlog frontend test tools.
+Use the existing Flightplan frontend test tools.
 
 Test:
 
@@ -435,15 +435,15 @@ The user interface is complete when:
 - The page handles loading, empty, and error states.
 - The page is keyboard accessible.
 - Frontend tests pass.
-- Existing Flightlog frontend tests pass.
+- Existing Flightplan frontend tests pass.
 
 ## 24. Agent execution instructions
 
-Inspect the existing Flightlog user interface before implementation.
+Inspect the existing Flightplan user interface before implementation.
 
 Use the supplied graphical mockup as a design reference.
 
-Follow existing Flightlog components and styles.
+Follow existing Flightplan components and styles.
 
 Do not introduce component-specific marketplace behavior.
 

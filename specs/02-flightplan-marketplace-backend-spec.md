@@ -1,8 +1,8 @@
-# Flightlog Context Marketplace Backend Specification
+﻿# Flightplan Context Marketplace Backend Specification
 
 ## 1. Purpose
 
-Implement the Context Marketplace backend in Flightlog.
+Implement the Context Marketplace backend in Flightplan.
 
 The backend must consume the versioned catalog from the local `ai-context` checkout.
 
@@ -24,7 +24,7 @@ catalog/schema/*.json
 ```
 
 The checkout can also contain `catalog/schema/catalog.cue`, which is the
-authoring source for the generated JSON Schemas. Flightlog must not require or
+authoring source for the generated JSON Schemas. Flightplan must not require or
 execute the CUE CLI. Its runtime contract is the YAML manifests plus the
 committed JSON Schemas.
 
@@ -33,7 +33,7 @@ committed JSON Schemas.
 The backend must:
 
 - Locate the installed `ai-context` checkout.
-- Install or update the checkout through the existing Flightlog workflow.
+- Install or update the checkout through the existing Flightplan workflow.
 - Load and validate the catalog.
 - Store local marketplace state.
 - Calculate available updates.
@@ -47,7 +47,7 @@ The backend must:
 
 ## 4. Architecture
 
-Inspect the existing Flightlog structure before implementation.
+Inspect the existing Flightplan structure before implementation.
 
 Follow existing router, service, model, persistence, configuration, logging, and test patterns.
 
@@ -92,7 +92,7 @@ If a new catalog is invalid:
 Reject a catalog when:
 
 - Its schema version is unsupported.
-- Its minimum Flightlog version is newer than the running Flightlog version.
+- Its minimum Flightplan version is newer than the running Flightplan version.
 - Any manifest or semantic validation fails.
 
 ## 6. Copilot home resolution
@@ -100,7 +100,7 @@ Reject a catalog when:
 Resolve the active Copilot home directory in this order:
 
 1. Use `COPILOT_HOME` when it has a nonempty value.
-2. Use the existing Flightlog Copilot-home configuration when present.
+2. Use the existing Flightplan Copilot-home configuration when present.
 3. Use `~/.copilot`.
 
 Resolve the final path before each synchronization operation.
@@ -109,7 +109,7 @@ Do not store an expanded user home path in portable marketplace state.
 
 ## 7. Marketplace state
 
-Use Flightlog's existing persistence mechanism when suitable.
+Use Flightplan's existing persistence mechanism when suitable.
 
 Store state outside:
 
@@ -202,7 +202,7 @@ For external dependencies:
 - Preserve the declared type, ID, name, description, required flag, and version
   constraint in the domain model.
 - Determine `available`, `unavailable`, or `unknown` status through an existing
-  Flightlog integration when one exists.
+  Flightplan integration when one exists.
 - Treat a detected version that does not satisfy the declared constraint as
   unavailable.
 - Do not install, configure, or store credentials for an MCP server.
@@ -210,7 +210,7 @@ For external dependencies:
   dependency is known to be unavailable.
 - Use `EXTERNAL_DEPENDENCY_VERSION_MISMATCH` when the dependency is present but
   its detected version does not satisfy the constraint.
-- Preserve an `unknown` status when Flightlog cannot determine availability.
+- Preserve an `unknown` status when Flightplan cannot determine availability.
 
 Profiles inherit external dependencies through their components. Profile
 application must include those requirements in its operation preview and apply
@@ -301,7 +301,7 @@ Implement this sequence:
 4. Compare each managed file with its installed hash.
 5. Remove each unchanged managed file.
 6. Preserve each modified managed file.
-7. Remove only empty directories that Flightlog created.
+7. Remove only empty directories that Flightplan created.
 8. Preserve directories that contain unmanaged files.
 9. Clear the applied version after safe completion.
 10. Save state atomically.
@@ -335,7 +335,7 @@ Do not treat a Git revision change alone as a component update.
 
 ## 15. Repository synchronization
 
-Use the existing Flightlog `ai-context` installation and update mechanism.
+Use the existing Flightplan `ai-context` installation and update mechanism.
 
 The synchronization operation must:
 
@@ -353,7 +353,7 @@ Do not automatically enable a newly added component during normal synchronizatio
 
 ## 16. Profiles
 
-When Flightlog applies a profile:
+When Flightplan applies a profile:
 
 - Load the profile from the valid catalog.
 - Apply only listed component states.
@@ -366,7 +366,7 @@ Profiles must not lock later user changes.
 
 ## 17. Initial migration
 
-Flightlog currently copies broad `ai-context` content into `~/.copilot`.
+Flightplan currently copies broad `ai-context` content into `~/.copilot`.
 
 Implement a one-time migration:
 
@@ -382,7 +382,7 @@ Implement a one-time migration:
 
 Do not claim ownership from a matching path alone.
 
-Require matching file content before Flightlog records ownership.
+Require matching file content before Flightplan records ownership.
 
 Do not delete a file during migration.
 
@@ -407,7 +407,7 @@ Do not record secrets.
 
 ## 19. API contract
 
-Follow existing Flightlog API naming and response conventions.
+Follow existing Flightplan API naming and response conventions.
 
 Provide operations equivalent to:
 
@@ -472,7 +472,7 @@ Use stable codes:
 ```text
 CATALOG_INVALID
 CATALOG_SCHEMA_UNSUPPORTED
-FLIGHTLOG_VERSION_UNSUPPORTED
+FLIGHTPLAN_VERSION_UNSUPPORTED
 COMPONENT_NOT_FOUND
 PROFILE_NOT_FOUND
 DEPENDENCY_MISSING
@@ -519,7 +519,7 @@ Test:
 - Invalid catalog rejection.
 - Unsupported schema.
 - Catalog loading when the CUE CLI is not installed.
-- Unsupported Flightlog version.
+- Unsupported Flightplan version.
 - Cache invalidation.
 - Previous-catalog preservation.
 
@@ -591,26 +591,26 @@ Test:
 
 The backend is complete when:
 
-- Flightlog loads the validated `ai-context` catalog.
-- Flightlog persists marketplace state.
-- Flightlog resolves dependencies.
-- Flightlog enables every supported component type.
-- Flightlog disables every supported component type safely.
-- Flightlog detects available updates.
-- Flightlog applies safe updates.
-- Flightlog preserves unmanaged files.
-- Flightlog preserves locally modified managed files.
-- Flightlog reports conflicts.
-- Flightlog supports profiles.
-- Flightlog migrates the existing broad-copy installation.
-- Flightlog exposes the required API.
-- Flightlog records activity.
+- Flightplan loads the validated `ai-context` catalog.
+- Flightplan persists marketplace state.
+- Flightplan resolves dependencies.
+- Flightplan enables every supported component type.
+- Flightplan disables every supported component type safely.
+- Flightplan detects available updates.
+- Flightplan applies safe updates.
+- Flightplan preserves unmanaged files.
+- Flightplan preserves locally modified managed files.
+- Flightplan reports conflicts.
+- Flightplan supports profiles.
+- Flightplan migrates the existing broad-copy installation.
+- Flightplan exposes the required API.
+- Flightplan records activity.
 - Backend tests pass.
-- Existing Flightlog tests pass.
+- Existing Flightplan tests pass.
 
 ## 23. Agent execution instructions
 
-Inspect Flightlog before selecting modules, routes, models, or persistence.
+Inspect Flightplan before selecting modules, routes, models, or persistence.
 
 Follow existing architectural patterns.
 
