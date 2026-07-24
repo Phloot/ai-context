@@ -1,0 +1,36 @@
+schema_version: 1
+
+id: maintainability-hooks
+type: hook
+name: Maintainability Hooks
+version: 1.0.0
+description: >
+  Adds maintainability guidance to delegated agent tasks through the
+  subagent-start hook.
+
+source:
+  paths:
+    - hooks/maintainability-hooks.json
+    - hooks/scripts/maintainability_subagent_context.py
+
+default_state: available
+
+compatibility:
+  operating_systems:
+    - linux
+    - macos
+  copilot_surfaces:
+    - cli
+
+dependencies:
+  - id: maintainable-code
+    version: ">=1.0.0,<2.0.0"
+external_dependencies: []
+
+tags:
+  - maintainability
+  - hooks
+  - delegation
+
+release:
+  summary: Initial catalog release of the maintainability hook set.

@@ -5,7 +5,6 @@
       {
         "type": "command",
         "bash": "python3 \"${COPILOT_HOME:-$HOME/.copilot}/hooks/scripts/maintainability_subagent_context.py\"",
-        "powershell": "$copilotHome = if ($env:COPILOT_HOME) { $env:COPILOT_HOME } else { Join-Path $HOME '.copilot' }; python (Join-Path $copilotHome 'hooks/scripts/maintainability_subagent_context.py')",
         "timeoutSec": 5
       }
     ]

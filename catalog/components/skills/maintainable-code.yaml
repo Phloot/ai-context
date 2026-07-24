@@ -1,0 +1,35 @@
+schema_version: 1
+
+id: maintainable-code
+type: skill
+name: Maintainable Code
+version: 1.0.0
+description: >
+  Applies maintainability checks while planning, implementing, and reviewing
+  Python and Java production code.
+
+source:
+  path: skills/maintainable-code
+
+default_state: available
+
+compatibility:
+  operating_systems:
+    - linux
+    - macos
+  copilot_surfaces:
+    - cli
+    - intellij
+    - vscode
+
+dependencies: []
+external_dependencies: []
+
+tags:
+  - maintainability
+  - code-quality
+  - python
+  - java
+
+release:
+  summary: Initial catalog release of the maintainable-code skill.

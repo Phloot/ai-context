@@ -1,0 +1,62 @@
+name: Catalog validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  CUE_VERSION: v0.17.1
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          python-version: "3.12"
+          enable-cache: true
+
+      - name: Install CUE
+        run: |
+          CUE_DIR="${RUNNER_TEMP}/cue"
+          mkdir -p "${CUE_DIR}"
+          curl -fsSL \
+            "https://github.com/cue-lang/cue/releases/download/${CUE_VERSION}/cue_${CUE_VERSION}_linux_amd64.tar.gz" \
+            | tar -xz -C "${CUE_DIR}" cue
+          echo "${CUE_DIR}" >> "${GITHUB_PATH}"
+
+      - name: Install validation dependencies
+        run: uv sync
+
+      - name: Check generated schemas
+        run: uv run python scripts/generate_schemas.py --check
+
+      - name: Validate catalog
+        run: uv run python scripts/validate_catalog.py
+
+      - name: Validate component versions
+        if: github.event_name == 'pull_request'
+        run: uv run python scripts/validate_catalog.py --base "origin/${{ github.base_ref }}"
+
+      - name: Run catalog tests
+        run: uv run python -m unittest discover -s tests -v
+
+      - name: Lint Python
+        run: uv run ruff check .
+
+      - name: Check Python formatting
+        run: uv run ruff format --check .
+
+      - name: Validate Python payloads
+        run: uv run python -m compileall -q hooks skills

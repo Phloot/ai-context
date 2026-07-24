@@ -1,0 +1,5 @@
+.venv/
+.tools/
+uv.lock
+__pycache__/
+*.py[cod]

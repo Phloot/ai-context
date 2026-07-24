@@ -1,0 +1,15 @@
+schema_version: 1
+
+id: maintainable-development
+name: Maintainable Development
+version: 1.0.0
+description: >
+  Enables the maintainability skill and its delegated-agent hook.
+
+mode: merge
+
+components:
+  - id: maintainable-code
+    enabled: true
+  - id: maintainability-hooks
+    enabled: true

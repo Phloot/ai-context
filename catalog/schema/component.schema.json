@@ -1,0 +1,284 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "copilot_surfaces": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "cli",
+              "intellij",
+              "vscode"
+            ]
+          },
+          "prefixItems": [
+            {
+              "enum": [
+                "cli",
+                "intellij",
+                "vscode"
+              ]
+            }
+          ],
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "operating_systems": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "linux",
+              "macos"
+            ]
+          },
+          "prefixItems": [
+            {
+              "enum": [
+                "linux",
+                "macos"
+              ]
+            }
+          ],
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "copilot_surfaces",
+        "operating_systems"
+      ]
+    },
+    "ComponentID": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "Dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/ComponentID"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "DirectorySource": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/RelativePath"
+        }
+      },
+      "required": [
+        "path"
+      ]
+    },
+    "ExternalDependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id": {
+          "$ref": "#/$defs/ComponentID"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "type": {
+          "const": "mcp"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "description",
+        "id",
+        "name",
+        "required"
+      ]
+    },
+    "FileSources": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RelativePath"
+          },
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/RelativePath"
+            }
+          ],
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "paths"
+      ]
+    },
+    "RelativePath": {
+      "allOf": [
+        {
+          "not": {
+            "pattern": "^[A-Za-z]:"
+          }
+        },
+        {
+          "not": {
+            "pattern": "(?:^|/)\\.\\.(?:/|$)"
+          }
+        },
+        {
+          "not": {
+            "pattern": "\\\\"
+          }
+        },
+        {
+          "not": {
+            "pattern": "\\x00"
+          }
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "not": {
+            "pattern": "^/"
+          }
+        }
+      ]
+    },
+    "SemanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "compatibility": {
+      "$ref": "#/$defs/Compatibility"
+    },
+    "default_state": {
+      "enum": [
+        "available",
+        "enabled"
+      ]
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Dependency"
+      },
+      "uniqueItems": true
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "external_dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ExternalDependency"
+      },
+      "uniqueItems": true
+    },
+    "id": {
+      "$ref": "#/$defs/ComponentID"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "summary"
+      ]
+    },
+    "replaces": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Dependency"
+      },
+      "uniqueItems": true
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "source": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DirectorySource"
+        },
+        {
+          "$ref": "#/$defs/FileSources"
+        }
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "type": {
+      "enum": [
+        "skill",
+        "agent",
+        "instruction",
+        "prompt",
+        "hook"
+      ]
+    },
+    "version": {
+      "$ref": "#/$defs/SemanticVersion"
+    }
+  },
+  "required": [
+    "compatibility",
+    "default_state",
+    "dependencies",
+    "description",
+    "external_dependencies",
+    "id",
+    "name",
+    "release",
+    "schema_version",
+    "source",
+    "type",
+    "version"
+  ],
+  "$id": "component.schema.json",
+  "title": "AI Context Component"
+}
