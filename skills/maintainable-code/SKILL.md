@@ -1,96 +1,72 @@
 ---
 name: maintainable-code
-description: Apply maintainability controls throughout tasks that plan, write, modify, refactor, or review production code. Use before implementation to review architecture, after each coherent implementation slice to provide feedback, and before completion to validate the complete change. Prefer repository-configured Ruff, PMD, build, test, and lint commands. Detect monolithic files, excessive complexity, mixed responsibilities, inappropriate coupling, and disproportionate file growth. Use for Java and Python repositories, including local development where SonarQube is unavailable.
+description: Prevent structural decay during tasks that plan, write, modify, refactor, or review code. Use before implementation, after each coherent slice, and before completion. Detect mixed responsibilities, inappropriate dependencies, speculative abstractions, excessive complexity, and disproportionate file growth.
 ---
 
 # Maintainable code
 
-Produce cohesive code that fits the repository architecture. Apply this workflow throughout the task. Do not require a local SonarQube instance.
+Apply this workflow throughout the task. Prefer repository rules and configured tools over this skill's defaults.
 
-## Start the maintainability workflow
+Read a reference only when its condition applies:
 
-1. Read the applicable `AGENTS.md` files.
-2. Inspect the package structure and adjacent implementations.
-3. Identify the repository test, lint, format, and build commands.
-4. Identify the approved local analyzers that the repository configures.
-5. Identify the files and responsibilities that the change affects.
-6. Read [references/python.md](references/python.md) for Python code.
-7. Read [references/java.md](references/java.md) for Java code.
+- [references/architecture.md](references/architecture.md): The change adds or alters a boundary, module, integration, persistence mechanism, or public interface.
+- [references/code-design.md](references/code-design.md): The change introduces behavior or reveals unclear ownership or abstractions.
+- [references/python.md](references/python.md): Changed Python code needs review.
+- [references/java.md](references/java.md): Changed Java code needs review.
 
-Prefer repository rules and configured tools over this skill's default thresholds.
+## Complete a design checkpoint
 
-## Complete the design checkpoint
+Never create a plan if you are given one directly, or have found one via an Agility story.
 
-Prepare a short file-level design before implementation when one condition is true:
+If you've not been provided a plan, create a short file plan when one condition is true:
 
-- The expected production diff is more than 300 lines.
-- The change adds a domain concept, integration, persistence boundary, or public interface.
-- The change affects more than three production files.
-- An existing file is likely to gain more than 100 lines.
-- The change adds a responsibility to an already large class or module.
+- The expected code diff exceeds 300 lines.
+- The change adds a domain concept, boundary, integration, or public interface.
+- The change affects more than three code files.
+- One file is likely to gain more than 100 lines.
+- The change adds responsibility to a large or mixed-purpose file.
 
-For each affected file, state its responsibility and expected change. Identify new files before implementation.
+Classify the affected architecture as established, emerging, or greenfield. State each affected file's responsibility, expected change, and dependency direction. Identify required new files before implementation.
 
-Split code by responsibility and change reason. Do not split code only to satisfy a line limit. Keep related behavior together when extraction would increase coupling.
+Split code by responsibility and reason to change. Do not split cohesive code to satisfy a line limit.
 
 ## Implement one coherent slice
 
-- Follow existing repository patterns unless a pattern causes the identified problem.
-- Keep transport, orchestration, domain logic, persistence, and external integrations separate.
-- Keep one conceptual operation in each function or method.
-- Use guard clauses when they reduce nesting.
-- Prefer clear data structures or polymorphism to long conditional chains when the design supports them.
-- Do not create a generic abstraction for one speculative use.
-- Do not add unrelated behavior to a utility module, controller, service, or manager class.
-- Preserve public behavior during a refactor.
-- Add or update tests before a risky extraction.
-- Do not suppress a quality finding without an explicit reason.
+- Do not add another responsibility to a mixed-purpose file.
+- Preserve intended dependency direction.
+- Do not add speculative abstractions, pass-through layers, or unrelated utility containers.
+- Do not hide complexity by moving it into generic helpers.
+- Preserve behavior during refactoring.
 
-Stop after one coherent behavior can be tested independently. Then complete the feedback checkpoint.
+Stop when one behavior can be tested independently. Then complete a feedback checkpoint.
 
-## Complete the feedback checkpoint
+## Complete a feedback checkpoint
 
-Complete this checkpoint after each coherent implementation slice. Also complete it when one condition is true:
+Run this checkpoint after each coherent slice. Also run it when a file gains more than 100 lines, a boundary changes, or the implementation departs from the design.
 
-- A production file gains approximately 100 lines.
-- The change adds a class, module, domain concept, or external boundary.
-- A method or function gains significant branching or nesting.
-- The implementation differs materially from the file-level design.
-- The next slice will add another responsibility to an existing file.
+1. Run focused tests.
+2. Run configured quality checks on changed code when practical.
+3. Review changed code with the applicable design reference.
+4. Review changed files for cohesion, dependency direction, and growth.
+5. Refactor each real maintainability problem before the next slice.
 
-At each feedback checkpoint:
+Do not postpone an emerging structural problem until final review.
 
-1. Run focused tests for the completed behavior.
-2. Run configured local quality checks on the changed code when practical.
-3. Review changed functions and methods for branching, nesting, length, and parameters.
-4. Review changed files for cohesion, coupling, and disproportionate growth.
-5. Refactor a real maintainability problem before the next slice.
-6. Update the file-level design when responsibilities or boundaries change.
-
-Do not run an expensive full build after every small edit. Do not wait until final review to address an emerging monolithic file.
-
-## Select local quality checks
+## Select local checks
 
 Use this precedence:
 
-1. Run the repository's documented quality commands.
-2. Run repository-configured Ruff checks for Python.
-3. Run repository-configured PMD checks for Java.
-4. Run another repository-approved analyzer when documented.
-5. If no approved analyzer exists, complete the manual maintainability review.
+1. Repository-documented quality commands.
+2. Repository-configured Ruff for Python.
+3. Repository-configured PMD for Java.
+4. Another repository-approved analyzer.
+5. Manual review when no approved analyzer exists.
 
-Do not install an analyzer or change repository configuration unless the task includes that work or the user approves it.
+Do not install or configure an analyzer without approval.
 
-If no approved analyzer exists:
-
-- Report that local complexity enforcement is unavailable.
-- Recommend that the repository configure Ruff or PMD.
-- Continue with the manual review and file-growth check.
-- Do not claim that the code passed an automated complexity check.
+When automated complexity checks are unavailable, report that limitation and recommend Ruff or PMD.
 
 ## Check file growth
-
-Run the bundled file-growth script from the personal skill installation.
 
 For uncommitted work, run:
 
@@ -98,28 +74,14 @@ For uncommitted work, run:
 python "$HOME/.copilot/skills/maintainable-code/scripts/check_file_growth.py" --base HEAD
 ```
 
-For a complete feature branch, run:
+For a feature branch, replace `HEAD` with the target branch. If `COPILOT_HOME` is set, use that installation path.
 
-```bash
-python "$HOME/.copilot/skills/maintainable-code/scripts/check_file_growth.py" --base origin/main
-```
-
-If `COPILOT_HOME` replaces `$HOME/.copilot`, use the corresponding skill path.
-
-Treat a threshold violation as a design review trigger. Refactor a real maintainability problem. If the code is cohesive, document the exception instead of applying a mechanical split.
+Treat a violation as a design-review trigger. Document a cohesive exception instead of making a mechanical split.
 
 ## Complete the final checkpoint
 
-Before completion:
+1. Run applicable tests, configured quality checks, and the file-growth check.
+2. Review the complete code diff for unresolved structural problems.
+3. Report commands, unavailable checks, violations, and accepted exceptions.
 
-1. Run the repository's applicable test suite.
-2. Run all configured local quality checks.
-3. Run the file-growth check against `HEAD` or the target branch.
-4. Review the complete production diff.
-5. Confirm that new dependencies follow the intended architecture.
-6. Confirm that each changed file has one cohesive responsibility.
-7. Confirm that tests cover changed behavior and important branches.
-8. Report each command that ran.
-9. Report unavailable checks, unresolved violations, and approved exceptions.
-
-If a final check finds a problem, return to the implementation loop. Do not report completion until the problem is fixed or documented.
+If a final check finds a problem, return to the implementation loop.
