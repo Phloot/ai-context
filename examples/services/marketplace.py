@@ -6,6 +6,7 @@ from typing import TypeVar
 from ..domains.marketplace import Component, MarketplaceError, Profile
 from ..schemas.marketplace import (
     ActivityPageResponse,
+    AutoUpdateResponse,
     MarketplaceResponse,
     MigrationResponse,
     MutationResponse,
@@ -39,6 +40,7 @@ class MarketplaceService:
         self._last_sync: SyncSummaryResponse | None = None
         self._last_sync_at: datetime | None = None
         self._migration_required = True
+        self._auto_update_enabled = False
         self._component_mutations = ComponentMutations(
             self._components, self._activity.record
         )
@@ -127,6 +129,14 @@ class MarketplaceService:
 
         return await self._run_mutation(operation)
 
+    async def set_auto_update(self, enabled: bool) -> AutoUpdateResponse:
+        async def operation() -> AutoUpdateResponse:
+            self._auto_update_enabled = enabled
+            self._activity.record("set_auto_update", None)
+            return AutoUpdateResponse(enabled=enabled)
+
+        return await self._run_mutation(operation)
+
     async def _run_mutation(self, operation: Callable[[], Awaitable[T]]) -> T:
         if self._mutation_lock.locked():
             raise MarketplaceError(
@@ -156,6 +166,7 @@ class MarketplaceService:
             last_sync=self._last_sync,
             last_sync_at=self._last_sync_at,
             migration_required=self._migration_required,
+            auto_update_enabled=self._auto_update_enabled,
         )
 
     def _counts(self) -> SummaryCounts:

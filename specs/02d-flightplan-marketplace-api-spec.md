@@ -25,6 +25,7 @@ POST /api/context-marketplace/components/{component_id}/enable
 POST /api/context-marketplace/components/{component_id}/disable
 POST /api/context-marketplace/components/{component_id}/update
 POST /api/context-marketplace/profiles/{profile_id}/apply
+PUT  /api/context-marketplace/settings/auto-update
 GET  /api/context-marketplace/activity
 ```
 
@@ -42,6 +43,11 @@ Return:
 - Update count.
 - Conflict count.
 - Last synchronization summary.
+- Auto-update enabled state.
+
+The auto-update settings operation accepts an explicit boolean and returns the
+persisted server-authoritative value. It defaults to `false` for new marketplace
+state.
 
 For each component, return:
 
@@ -132,6 +138,7 @@ Test:
 - Stable errors.
 - Unknown IDs.
 - Concurrent mutations.
+- Auto-update default, enable, disable, persistence, and mutation concurrency.
 
 ## 22. Acceptance criteria
 

@@ -38,6 +38,7 @@ def build_marketplace_response(
     last_sync: SyncSummaryResponse | None,
     last_sync_at: datetime | None,
     migration_required: bool,
+    auto_update_enabled: bool,
 ) -> MarketplaceResponse:
     dependents = {
         component_id: [
@@ -101,4 +102,5 @@ def build_marketplace_response(
         last_synchronization=last_sync,
         last_synchronized_at=last_sync_at,
         migration=MigrationResponse(required=migration_required),
+        auto_update_enabled=auto_update_enabled,
     )

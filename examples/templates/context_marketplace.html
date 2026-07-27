@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,13 +8,13 @@
     <link href="/static/marketplace/marketplace.css" rel="stylesheet">
   </head>
   <body>
-    <main class="container-fluid px-3 px-lg-4 py-4" id="marketplace-app">
+    <main class="container-fluid px-3 px-lg-4 py-4 marketplace-shell" id="marketplace-app">
       <div class="d-flex flex-wrap gap-3 justify-content-between align-items-start mb-4">
         <div>
           <h1 class="h2 mb-1">Context Marketplace</h1>
           <p class="text-body-secondary mb-0" id="catalog-status">Loading catalog…</p>
         </div>
-        <button class="btn btn-primary" id="sync-button" type="button">Sync now</button>
+        <button class="btn btn-outline-primary" id="sync-button" type="button">Sync now</button>
       </div>
 
       <div id="status-message" class="visually-hidden" role="status" aria-live="polite"></div>
@@ -36,13 +36,25 @@
       </nav>
 
       <section class="row g-3 mb-4" aria-label="Marketplace summary">
-        <div class="col-12 col-sm-4"><div class="card card-body"><span class="text-body-secondary">Enabled</span><strong class="fs-4" id="enabled-count">—</strong></div></div>
-        <div class="col-12 col-sm-4"><div class="card card-body"><span class="text-body-secondary">Updates</span><strong class="fs-4" id="update-count">—</strong></div></div>
-        <div class="col-12 col-sm-4"><div class="card card-body"><span class="text-body-secondary">Conflicts</span><strong class="fs-4" id="conflict-count">—</strong></div></div>
+        <div class="col-12 col-sm-4"><div class="card card-body summary-card"><span class="text-body-secondary">Enabled</span><strong class="fs-4" id="enabled-count">—</strong></div></div>
+        <div class="col-12 col-sm-4"><div class="card card-body summary-card"><span class="text-body-secondary">Updates</span><strong class="fs-4" id="update-count">—</strong></div></div>
+        <div class="col-12 col-sm-4"><div class="card card-body summary-card"><span class="text-body-secondary">Conflicts</span><strong class="fs-4" id="conflict-count">—</strong></div></div>
       </section>
 
       <section id="component-view">
-        <div class="row g-3 align-items-end mb-3">
+        <section class="card card-body mb-4 d-none auto-update-card" id="auto-update-panel" aria-labelledby="auto-update-title">
+          <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center">
+            <div>
+              <h2 class="h6 mb-1" id="auto-update-title">Automatic updates</h2>
+              <p class="small text-body-secondary mb-0">Apply safe updates during catalog synchronization.</p>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" id="auto-update-switch" type="checkbox" role="switch">
+              <label class="form-check-label" for="auto-update-switch">Auto-update enabled</label>
+            </div>
+          </div>
+        </section>
+        <div class="row g-3 align-items-end mb-3" id="component-controls">
           <div class="col-12 col-lg-8">
             <fieldset>
               <legend class="form-label mb-2">Component types</legend>
@@ -55,13 +67,13 @@
           </div>
         </div>
         <div class="row g-4 marketplace-layout">
-          <section class="col-12 col-lg-5" aria-labelledby="component-list-title">
+          <section class="col-12 col-lg-5" id="component-list-section" aria-labelledby="component-list-title">
             <h2 class="h5" id="component-list-title">Components</h2>
             <div class="list-group" id="component-list" aria-label="Marketplace components"></div>
             <p class="text-body-secondary d-none" id="component-empty">No components match this view.</p>
           </section>
-          <section class="col-12 col-lg-7" aria-labelledby="detail-title">
-            <div class="card"><div class="card-body" id="component-detail"><h2 class="h5" id="detail-title">Select a component</h2></div></div>
+          <section class="col-12 col-lg-7" id="component-detail-section" aria-labelledby="detail-title">
+            <div class="card detail-card"><div class="card-body" id="component-detail"><h2 class="h5" id="detail-title">Select a component</h2></div></div>
           </section>
         </div>
       </section>

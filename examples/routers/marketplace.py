@@ -6,6 +6,8 @@ from fastapi.responses import FileResponse
 
 from ..schemas.marketplace import (
     ActivityPageResponse,
+    AutoUpdateRequest,
+    AutoUpdateResponse,
     MarketplaceResponse,
     MigrationResponse,
     MutationResponse,
@@ -82,3 +84,13 @@ async def apply_profile(profile_id: str, service: Service) -> MutationResponse:
 @router.post("/api/context-marketplace/migrate", response_model=MigrationResponse)
 async def migrate_marketplace(service: Service) -> MigrationResponse:
     return await service.migrate()
+
+
+@router.put(
+    "/api/context-marketplace/settings/auto-update",
+    response_model=AutoUpdateResponse,
+)
+async def set_auto_update(
+    request: AutoUpdateRequest, service: Service
+) -> AutoUpdateResponse:
+    return await service.set_auto_update(request.enabled)

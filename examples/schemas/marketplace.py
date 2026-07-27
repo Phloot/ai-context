@@ -95,6 +95,15 @@ class MarketplaceResponse(StrictModel):
     last_synchronization: SyncSummaryResponse | None
     last_synchronized_at: datetime | None
     migration: MigrationResponse
+    auto_update_enabled: bool
+
+
+class AutoUpdateRequest(StrictModel):
+    enabled: bool
+
+
+class AutoUpdateResponse(StrictModel):
+    enabled: bool
 
 
 class MutationResponse(StrictModel):

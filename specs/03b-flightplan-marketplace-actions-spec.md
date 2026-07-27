@@ -87,6 +87,22 @@ If the backend reports a local modification conflict:
 
 Do not provide force overwrite in the first release.
 
+### 10.1 Automatic updates
+
+In the Updates view, show an `Auto-update enabled` switch.
+
+- Default the switch to off.
+- Initialize it from the backend response.
+- Let the developer enable or disable it explicitly.
+- Wait for backend confirmation before displaying the new setting.
+- Explain that enabling it applies safe updates to enabled components during
+  catalog synchronization.
+- Keep explicit component updates available in either state.
+
+Automatic updates must preserve the same dependency, compatibility, conflict,
+local-modification, and file-safety behavior as explicit updates. Do not imply
+that auto-update force-overwrites conflicts.
+
 ## 11. Synchronization interaction
 
 The `Sync now` action must:
@@ -153,6 +169,7 @@ Test:
 - Unknown external dependency availability.
 - Disable success and dependent blocking.
 - Update success and update conflict response handling.
+- Auto-update default, enable, disable, pending state, and backend confirmation.
 - Synchronization success and failure.
 - Profile preview and application.
 - Activity rendering.

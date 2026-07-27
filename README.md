@@ -15,10 +15,17 @@ Reusable Copilot context components and their Flightplan marketplace catalog.
 | `catalog/profiles/` | Versioned recommended component states. |
 | `catalog/schema/catalog.cue` | Authoritative catalog schema. |
 | `catalog/schema/*.schema.json` | Generated schemas consumed by Flightplan and other non-CUE tools. |
+| `examples/` | Runnable, non-production FastAPI and vanilla-JavaScript marketplace reference. |
 
 The YAML files under `catalog/` are the runtime wire format. CUE is used to
 author and validate the schema; Flightplan does not need CUE to read a released
 catalog.
+
+The `examples/` application illustrates the final marketplace API and user
+interface shape for implementation handoff. It is not a selectable catalog
+component, does not own Copilot payloads, and is not the production Flightplan
+backend. See `examples/README.md` for its boundaries, limitations, and run
+instructions.
 
 ## Key concepts
 

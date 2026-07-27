@@ -93,6 +93,9 @@ Use a model equivalent to:
   "schemaVersion": 1,
   "catalogVersion": "2026.07.1",
   "sourceRevision": "<git-revision>",
+  "settings": {
+    "autoUpdateEnabled": false
+  },
   "components": {
     "<component-id>": {
       "enabled": true,
@@ -109,6 +112,10 @@ Use a model equivalent to:
 ```
 
 Store destination paths relative to the Copilot home directory.
+
+Default `autoUpdateEnabled` to `false`. Persist changes atomically with the
+rest of marketplace state. Auto-update is an opt-in synchronization preference;
+it does not weaken compatibility, dependency, conflict, or file-safety checks.
 
 Use SHA-256 for source and installed hashes.
 
@@ -170,6 +177,7 @@ Test:
 - Corrupt state.
 - Unsupported state schema.
 - State migration.
+- Default and persisted auto-update settings.
 
 ## Completion gate
 

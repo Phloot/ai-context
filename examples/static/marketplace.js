@@ -38,6 +38,9 @@ import { renderActivityRows, renderProfiles } from "./marketplace-secondary.js";
     byId("migration-panel").classList.toggle("d-none", !data.migration.required);
     byId("sync-button").disabled = state.pending;
     byId("migrate-button").disabled = state.pending;
+    byId("auto-update-panel").classList.toggle("d-none", state.view !== "updates");
+    byId("auto-update-switch").checked = data.auto_update_enabled;
+    byId("auto-update-switch").disabled = state.pending || !data.catalog_validation.valid;
     renderTabs();
     renderTypeFilters(byId("type-filters"), data.available_component_types, state.selectedTypes, toggleType);
     renderComponents();
@@ -64,8 +67,23 @@ import { renderActivityRows, renderProfiles } from "./marketplace-secondary.js";
   function renderComponents() {
     const list = byId("component-list");
     const components = visibleComponents();
+    const hasViewComponents = state.view === "enabled"
+      ? state.data.components.some((item) => item.enabled)
+      : state.view === "updates"
+        ? state.data.components.some((item) => item.update_available)
+        : true;
     if (!components.some((item) => item.id === state.selectedId)) state.selectedId = components[0]?.id || null;
     list.replaceChildren();
+    byId("component-controls").classList.toggle("d-none", !hasViewComponents);
+    byId("component-list-section").classList.toggle("col-lg-5", components.length !== 0);
+    byId("component-list-section").classList.toggle("col-lg-12", components.length === 0);
+    byId("component-detail-section").classList.toggle("d-none", components.length === 0);
+    const emptyMessage = state.view === "updates" && !hasViewComponents
+      ? "You're up to date. No component updates are available."
+      : state.view === "enabled" && !hasViewComponents
+        ? "No components are enabled yet."
+        : "No components match your search and filters.";
+    byId("component-empty").textContent = emptyMessage;
     byId("component-empty").classList.toggle("d-none", components.length !== 0);
     components.forEach((component) => {
       const button = document.createElement("button");
@@ -143,11 +161,11 @@ import { renderActivityRows, renderProfiles } from "./marketplace-secondary.js";
     await mutate(`${API}/components/${encodeURIComponent(component.id)}/${operation}`, `${operation} ${component.name}`);
   }
 
-  async function mutate(path, label) {
+  async function mutate(path, label, options = { method: "POST" }) {
     state.pending = true;
     render();
     try {
-      await request(path, { method: "POST" });
+      await request(path, options);
       await loadMarketplace({ preserveFocus: true });
       announce(`${label} succeeded.`);
     } catch (error) {
@@ -187,6 +205,15 @@ import { renderActivityRows, renderProfiles } from "./marketplace-secondary.js";
     document.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => selectView(button.dataset.view)));
     byId("sync-button").addEventListener("click", () => mutate(`${API}/sync`, "Catalog sync"));
     byId("migrate-button").addEventListener("click", () => mutate(`${API}/migrate`, "Migration"));
+    byId("auto-update-switch").addEventListener("change", async (event) => {
+      const enabled = event.target.checked;
+      event.target.checked = state.data.auto_update_enabled;
+      await mutate(`${API}/settings/auto-update`, `Auto-update ${enabled ? "enabled" : "disabled"}`, {
+        method: "PUT",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ enabled })
+      });
+    });
     try {
       await loadMarketplace();
       if (state.view === "activity") await renderActivity();

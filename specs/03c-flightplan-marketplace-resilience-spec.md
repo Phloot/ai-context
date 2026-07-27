@@ -89,6 +89,11 @@ Provide:
 
 Do not replace the complete page with a spinner for a single component mutation.
 
+When a state-filtered view has no components, hide search, type filters, and an
+empty detail panel that cannot help resolve the state. Show one concise,
+view-specific empty message while preserving applicable settings and recovery
+actions.
+
 ## Focused tests
 
 Test:
@@ -99,6 +104,7 @@ Test:
 - Known and unknown API errors.
 - Full-page initial loading versus scoped mutation loading.
 - Empty catalog, search, enabled, update, and activity states.
+- Unhelpful component controls being absent from state-level empty views.
 
 ## Completion gate
 

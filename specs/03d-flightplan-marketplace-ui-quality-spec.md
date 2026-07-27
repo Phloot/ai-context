@@ -25,6 +25,17 @@ At narrower widths:
 
 Do not require a separate mobile application layout.
 
+### 17.1 Visual clarity
+
+- Use the Flightplan dark color scheme for the marketplace page.
+- Prefer subdued cards, selection states, and navigation emphasis over large
+  high-contrast surfaces.
+- Keep secondary settings, including automatic updates, compact rather than
+  stretching them across the complete content width.
+- Preserve whitespace and visual grouping so a new developer can distinguish
+  browsing, settings, status, and actions without reading every element.
+- Keep action controls visually distinct from informational status.
+
 ## 18. Accessibility
 
 Meet the accessibility level that Flightplan currently requires.
@@ -38,6 +49,9 @@ At minimum:
 - Keep focus visible.
 - Announce mutation results.
 - Announce errors.
+- Capitalize user-facing result messages as sentences.
+- Automatically dismiss transient result and error messages after approximately
+  seven seconds while ensuring assistive technology can announce them first.
 - Do not use color as the only status indicator.
 - Provide accessible names for toggle controls.
 
@@ -57,6 +71,9 @@ Test:
 - Status announcements.
 - Narrow desktop layouts.
 - Absence of horizontal page scrolling.
+- Dark-theme contrast and restrained active states.
+- Sentence-cased notification text and timed dismissal.
+- Compact automatic-update presentation.
 
 Run the complete focused suites from 03a, 03b, and 03c as the final regression
 suite.
@@ -78,6 +95,7 @@ The user interface is complete when:
 - Developers can disable a component safely.
 - Developers can see blocked dependency removal.
 - Developers can update a component.
+- Developers can opt into or out of safe automatic updates.
 - Developers can synchronize the catalog.
 - Developers can apply a profile.
 - Developers can view activity.

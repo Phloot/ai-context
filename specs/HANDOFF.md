@@ -14,9 +14,39 @@ The public `ai-context` repository now contains:
 - Contributor guidance in `README.md` and `AGENTS.md`.
 - A uv-based development environment and Make targets.
 - Sequential implementation plans for the Flightplan backend and UI.
+- A runnable marketplace implementation reference under `examples/`.
 
 The catalog implementation and granular specification baseline are present by
 commit `af5e898`; use the latest `main`.
+
+## Runnable implementation reference
+
+The repository includes `examples/`, a self-contained FastAPI and vanilla
+JavaScript application that demonstrates the final marketplace API and user
+interface shape. Treat the directory as an example Flightplan application
+package with `routers/`, `domains/`, `schemas/`, and `services/` boundaries.
+
+Use the example to understand:
+
+- Thin FastAPI routes over server-authoritative marketplace services.
+- Strict Pydantic request and response contracts.
+- Stable, safe API error envelopes.
+- Serialized marketplace mutations.
+- Bootstrap component browsing, multi-select type filters, details, profiles,
+  activity, synchronization, opt-in automatic updates, and migration states.
+- Frontend state changes that occur only after backend confirmation.
+
+The example is orientation material, not a production implementation or an
+additional specification. Its state is intentionally in memory, and its sync,
+migration, and projection behavior is representative only. Production work
+must still implement slices 02a through 03d in order, including catalog
+validation, atomic persistence, dependency constraints, filesystem safety,
+repository synchronization, migration, resilience, and complete acceptance
+tests. Do not copy the example in place of inspecting Flightplan's existing
+architecture and conventions.
+
+Run the example and its focused checks using the commands in
+`examples/README.md`.
 
 ## Settled architecture
 

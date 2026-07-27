@@ -24,12 +24,19 @@ The synchronization operation must:
 - Validate the new catalog.
 - Preserve the previous valid catalog when validation fails.
 - Calculate component updates.
-- Apply safe updates to enabled components.
+- Apply safe updates to enabled components only when the persisted auto-update
+  setting is enabled.
+- Report available updates without applying them when auto-update is disabled.
 - Keep disabled components absent from the Copilot home directory.
 - Keep new components disabled unless an initial default applies.
 - Return updates, skips, and conflicts.
 
 Do not automatically enable a newly added component during normal synchronization.
+
+Auto-update must default to disabled. Enabling it changes only synchronization
+behavior; explicit component update operations remain available in either state.
+Every automatic update must use the same projection planning, local-modification
+checks, and atomic state behavior as an explicit update.
 
 ## 16. Profiles
 
@@ -92,6 +99,9 @@ Test:
 - Successful and failed repository synchronization.
 - Preservation of the previous valid catalog.
 - Safe updates of enabled components after synchronization.
+- Disabled-by-default auto-update behavior and preference persistence.
+- Update discovery without application when auto-update is disabled.
+- Safe application when auto-update is enabled.
 - New components remaining disabled unless an initial default applies.
 - Profile preview and merge application.
 - Profile dependency and external-dependency handling.

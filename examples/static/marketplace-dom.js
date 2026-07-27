@@ -17,7 +17,19 @@ export function appendDefinition(container, label, value) {
 }
 
 export function announce(message, isError = false) {
+  window.clearTimeout(announce.dismissTimer);
+  ["status-message", "error-message"].forEach((id) => {
+    const messageElement = document.getElementById(id);
+    messageElement.textContent = "";
+    messageElement.className = "visually-hidden";
+  });
   const target = document.getElementById(isError ? "error-message" : "status-message");
-  target.textContent = message;
+  target.textContent = `${message.charAt(0).toUpperCase()}${message.slice(1)}`;
   target.className = `alert ${isError ? "alert-danger" : "alert-success"}`;
+  announce.dismissTimer = window.setTimeout(() => {
+    target.textContent = "";
+    target.className = "visually-hidden";
+  }, 7000);
 }
+
+announce.dismissTimer = 0;

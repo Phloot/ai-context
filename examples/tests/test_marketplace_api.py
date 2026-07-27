@@ -31,6 +31,21 @@ async def test_marketplace_exposes_all_component_types(client: AsyncClient) -> N
         "hook",
     }
     assert body["summary"] == {"enabled": 1, "updates": 1, "conflicts": 0}
+    assert body["auto_update_enabled"] is False
+
+
+@pytest.mark.anyio
+async def test_auto_update_is_opt_in_and_server_authoritative(
+    client: AsyncClient,
+) -> None:
+    response = await client.put(
+        "/api/context-marketplace/settings/auto-update", json={"enabled": True}
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"enabled": True}
+    marketplace = (await client.get("/api/context-marketplace")).json()
+    assert marketplace["auto_update_enabled"] is True
 
 
 @pytest.mark.anyio

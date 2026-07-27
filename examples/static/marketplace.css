@@ -1,13 +1,63 @@
-body { background: var(--bs-tertiary-bg); }
+body {
+  background:
+    radial-gradient(circle at top right, rgba(68, 107, 147, .12), transparent 32rem),
+    #101419;
+}
+.marketplace-shell { max-width: 1440px; }
 .marketplace-layout { min-width: 0; }
-.list-group-item { text-align: left; }
+.card {
+  --bs-card-bg: #171d24;
+  --bs-card-border-color: #2a333d;
+  box-shadow: 0 .35rem 1.1rem rgba(0, 0, 0, .14);
+}
+.summary-card {
+  background: rgba(23, 29, 36, .72);
+  box-shadow: none;
+}
+.auto-update-card {
+  max-width: 38rem;
+  background: rgba(23, 29, 36, .78);
+  border-left: .2rem solid #6ea8fe;
+  box-shadow: none;
+}
+.detail-card { min-height: 18rem; }
+.nav-pills .nav-link { color: var(--bs-secondary-color); }
+.nav-pills .nav-link:hover { color: var(--bs-body-color); background: rgba(255, 255, 255, .04); }
+.nav-pills .nav-link.active {
+  color: #cfe2ff;
+  background: rgba(13, 110, 253, .2);
+}
+.list-group-item {
+  text-align: left;
+  background: rgba(23, 29, 36, .7);
+  border-color: #2a333d;
+}
+.list-group-item:hover { background: #1c242d; }
+.list-group-item.active {
+  color: var(--bs-body-color);
+  background: rgba(13, 110, 253, .16);
+  border-color: #4f79a8;
+  box-shadow: inset .2rem 0 #6ea8fe;
+}
+.list-group-item.active .text-body-secondary { color: var(--bs-secondary-color) !important; }
 .list-group-item:focus-visible, .btn:focus-visible, .form-control:focus-visible, .form-select:focus-visible {
   outline: 3px solid rgba(var(--bs-primary-rgb), .35);
   outline-offset: 2px;
 }
 .status-badges { display: flex; flex-wrap: wrap; gap: .35rem; }
-.component-type-filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+.component-type-filters { display: flex; flex-wrap: wrap; gap: .45rem; }
+.component-type-filters .btn { --bs-btn-padding-x: .8rem; }
+.component-type-filters .btn-outline-primary {
+  --bs-btn-color: #9ec5fe;
+  --bs-btn-border-color: #3d526b;
+  --bs-btn-hover-bg: rgba(13, 110, 253, .12);
+  --bs-btn-hover-border-color: #587ca5;
+}
 .detail-list { padding-left: 1.25rem; }
+.alert { border-color: rgba(255, 255, 255, .12); }
+#migration-panel { max-width: 52rem; }
+#status-message, #error-message { max-width: 40rem; }
 @media (max-width: 991.98px) {
   #component-detail { min-height: auto; }
+  .auto-update-card { max-width: none; }
 }
