@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Context Marketplace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/marketplace/marketplace.css" rel="stylesheet">
+  </head>
+  <body>
+    <main class="container-fluid px-3 px-lg-4 py-4" id="marketplace-app">
+      <div class="d-flex flex-wrap gap-3 justify-content-between align-items-start mb-4">
+        <div>
+          <h1 class="h2 mb-1">Context Marketplace</h1>
+          <p class="text-body-secondary mb-0" id="catalog-status">Loading catalog…</p>
+        </div>
+        <button class="btn btn-primary" id="sync-button" type="button">Sync now</button>
+      </div>
+
+      <div id="status-message" class="visually-hidden" role="status" aria-live="polite"></div>
+      <div id="error-message" class="visually-hidden" role="alert" aria-live="assertive"></div>
+      <section id="migration-panel" class="alert alert-info d-none" aria-labelledby="migration-title">
+        <h2 class="h5" id="migration-title">Identify existing context files</h2>
+        <p>Flightplan will claim only files whose contents match catalog payloads. Unmatched files stay unmanaged.</p>
+        <button class="btn btn-sm btn-outline-primary" id="migrate-button" type="button">Run migration</button>
+      </section>
+
+      <nav aria-label="Marketplace views" class="mb-4">
+        <div class="nav nav-pills gap-1" id="view-tabs">
+          <button class="nav-link" type="button" data-view="marketplace">Marketplace</button>
+          <button class="nav-link" type="button" data-view="enabled">Enabled</button>
+          <button class="nav-link" type="button" data-view="updates">Updates</button>
+          <button class="nav-link" type="button" data-view="profiles">Profiles</button>
+          <button class="nav-link" type="button" data-view="activity">Activity</button>
+        </div>
+      </nav>
+
+      <section class="row g-3 mb-4" aria-label="Marketplace summary">
+        <div class="col-12 col-sm-4"><div class="card card-body"><span class="text-body-secondary">Enabled</span><strong class="fs-4" id="enabled-count">—</strong></div></div>
+        <div class="col-12 col-sm-4"><div class="card card-body"><span class="text-body-secondary">Updates</span><strong class="fs-4" id="update-count">—</strong></div></div>
+        <div class="col-12 col-sm-4"><div class="card card-body"><span class="text-body-secondary">Conflicts</span><strong class="fs-4" id="conflict-count">—</strong></div></div>
+      </section>
+
+      <section id="component-view">
+        <div class="row g-3 align-items-end mb-3">
+          <div class="col-12 col-lg-8">
+            <fieldset>
+              <legend class="form-label mb-2">Component types</legend>
+              <div class="component-type-filters" id="type-filters"></div>
+            </fieldset>
+          </div>
+          <div class="col-12 col-lg-4">
+            <label class="form-label" for="component-search">Search components</label>
+            <input class="form-control" id="component-search" type="search" placeholder="Name, ID, description, tag, or type">
+          </div>
+        </div>
+        <div class="row g-4 marketplace-layout">
+          <section class="col-12 col-lg-5" aria-labelledby="component-list-title">
+            <h2 class="h5" id="component-list-title">Components</h2>
+            <div class="list-group" id="component-list" aria-label="Marketplace components"></div>
+            <p class="text-body-secondary d-none" id="component-empty">No components match this view.</p>
+          </section>
+          <section class="col-12 col-lg-7" aria-labelledby="detail-title">
+            <div class="card"><div class="card-body" id="component-detail"><h2 class="h5" id="detail-title">Select a component</h2></div></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="profiles-view" class="d-none" aria-labelledby="profiles-title">
+        <h2 class="h4" id="profiles-title">Profiles</h2>
+        <p class="text-body-secondary">Profiles merge recommended states and never lock later changes.</p>
+        <div class="row g-3" id="profile-list"></div>
+      </section>
+
+      <section id="activity-view" class="d-none" aria-labelledby="activity-title">
+        <h2 class="h4" id="activity-title">Activity</h2>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead><tr><th>Time</th><th>Operation</th><th>Target</th><th>Version</th><th>Result</th><th>Conflicts</th></tr></thead>
+            <tbody id="activity-list"></tbody>
+          </table>
+        </div>
+        <p class="text-body-secondary d-none" id="activity-empty">No marketplace activity yet.</p>
+      </section>
+    </main>
+    <script src="/static/marketplace/marketplace.js" type="module"></script>
+  </body>
+</html>

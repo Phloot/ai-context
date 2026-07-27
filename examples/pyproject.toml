@@ -1,0 +1,27 @@
+[project]
+name = "flightplan-marketplace-example"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.116,<1",
+  "pydantic>=2.11,<3",
+  "uvicorn>=0.35,<1",
+]
+
+[dependency-groups]
+dev = [
+  "httpx>=0.28,<1",
+  "pytest>=8.4,<9",
+  "ruff>=0.12,<1",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+anyio_mode = "auto"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
