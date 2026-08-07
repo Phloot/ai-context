@@ -24,6 +24,7 @@ Check the completed slice for these failure modes:
 - an abstraction has only speculative consumers or pass-through implementations;
 - branching or mutable state makes the behavior difficult to explain or test;
 - a local shortcut creates a second architectural pattern.
+- the same business decision has more than one implementation.
 
 Refactor when the problem is present. Do not extract code solely because a threshold was crossed.
 
@@ -37,3 +38,5 @@ Prefer, in order:
 4. introduce an interface only at a real ownership, volatility, or integration boundary.
 
 When no owner exists, create one and name it for its responsibility. Avoid catch-all services, managers, processors, and utility modules.
+
+Consolidate duplicate domain decisions even when their names or syntax differ. Do not abstract syntax that has different ownership or reasons to change.
