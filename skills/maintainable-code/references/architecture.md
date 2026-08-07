@@ -18,7 +18,10 @@ Review package structure when one condition appears:
 - Business behavior can run without its transport.
 - Persistence or an external integration is introduced.
 - An entry point begins to contain application behavior.
+- A module gains a second reason to change.
 - A framework model begins to control business behavior.
+
+These conditions trigger review. They do not require new structure. Keep the current structure when the behavior has a clear owner and does not add a distinct responsibility or dependency boundary.
 
 Create a package or file only when the current change gives it a concrete responsibility.
 
